@@ -119,3 +119,12 @@ def main():
     # alternative to gradio
 
 main()
+
+'''In Summary:
+
+I created a voice assistant using the speech_recognition library to recognize the users voice input.
+1. I used the Google Text-to-Speech (gTTS) library to convert text to speech.
+2. I used the GenerativeAI library to generate responses to the user's queries.
+3. I used the Streamlit library to create a web application for the voice assistant.
+4. I used the logging library to log information about the voice assistant.
+5. I used the datetime library to get the current time and date.'''
