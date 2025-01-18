@@ -13,14 +13,22 @@ from gtts import gTTS # this way is because of OOP, this is method
 def greet():
     now = datetime.datetime.now()
     # greets the user
-    hour = int(now.hour) # we convert the hour to an integer because it is a float
-    if hour >= 0 and hour < 12:
-        print("\033[1mGood Morning!\033[0m")
-    elif hour >= 12 and hour < 18:
-        print("\033[1mGood Afternoon!\033[0m")
+    hour = now.hour
+    minute = now.minute
+    second = now.second
+    period = "AM" if hour < 12 else "PM"
+    hour %= 12
+    hour = 12 if hour == 0 else hour
+
+    if period == "AM" and hour < 12:
+        st.write(f"Good Morning! \n It is {hour}:{minute}:{second} {period}")
+    elif period == "PM" and hour < 6:
+        st.write(f"Good Afternoon! \n It is {hour}:{minute}:{second} {period}")
     else:
-        print("\033[1mGood Evening!\033[0m")
-    print("I am your assistant. How may I help you?")
+        st.write(f"Good Evening! \n It is {hour}:{minute}:{second} {period}")
+
+    st.write("I am your assistant. How may I help you?")
+    # logging.info("Greeted the user")
     # logging.info("Greeted the user")
 
 # Application logger
@@ -81,7 +89,23 @@ def gemini_model(input):
     results = response.text
     return results
 
-greet()
-text = take_command()
-response = gemini_model(text)
-print(response)
+# greet()
+# text = take_command()
+# response = gemini_model(text)
+# print(response)
+
+def main():
+    st.title("AI Voice Assistant with Gemini")
+
+    greet()
+
+    if st.button("Speak"):
+        with st.spinner("Listening..."):
+            text = take_command()
+        response = gemini_model(text)
+        st.write(response)
+        text_to_speech(response)
+    #streamlit run main.py
+    # alternative to gradio
+
+main()
