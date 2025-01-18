@@ -5,11 +5,10 @@ import datetime
 import webbrowser
 import os
 import logging
-import google
+import google.generativeai as gai
 import pyaudio
 import streamlit as st
 from gtts import gTTS # this way is because of OOP, this is method
-
 
 def greet():
     now = datetime.datetime.now()
@@ -67,6 +66,17 @@ def text_to_speech(text):
     speech.save("test_speech.mp3")
     os.system("start speech.mp3")
     logging.info("Converted text to speech")
+    #google tts
 
-greet()
-text_to_speech(take_command())
+# greet()
+# text_to_speech(take_command())
+
+def gemini_model(input):
+    gai.configure(api_key='AIzaSyCGPVB7IAbNjmr68IpdoBdkrumzulbHaZA')
+    # replace the above with your own key
+    model = gai.GenerativeModel('gemini-1.5-flash')
+    # cheap model
+    response = model.generate_content(input)
+    # use input to generate content
+    results = response.text
+    return results
