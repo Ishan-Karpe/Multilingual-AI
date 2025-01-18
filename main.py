@@ -6,7 +6,7 @@ import os
 import logging
 import google.generativeai as gai
 import streamlit as st
-from gtts import gTTS # this way is because of OOP, this is method
+from gtts import gTTS
 
 def greet():
     now = datetime.datetime.now()
@@ -14,13 +14,13 @@ def greet():
     hour = now.hour
     minute = now.minute
     second = now.second
-    period = "AM" if hour < 12 else "PM"
+    period = "AM" if hour < 12 else "PM"# store the if else in a variable
     hour %= 12
-    hour = 12 if hour == 0 else hour
+    hour = 12 if hour == 0 else hour # if hour is 0, set it to 12
 
-    if period == "AM" and hour < 12:
+    if period == "AM" and hour <= 12:
         st.write(f"Good Morning! \n It is {hour}:{minute}:{second} {period}")
-    elif period == "PM" and hour < 6:
+    elif period == "PM" and hour <= 6:
         st.write(f"Good Afternoon! \n It is {hour}:{minute}:{second} {period}")
     else:
         st.write(f"Good Evening! \n It is {hour}:{minute}:{second} {period}")
@@ -29,7 +29,7 @@ def greet():
     logging.info("Greeted the user")
     logging.info("Greeted the user")
 
-LOG_DIR = 'logs'
+LOG_DIR = 'logs' #optional log directory
 LOG_FILE_NAME = 'app.log'
 
 os.makedirs(LOG_DIR, exist_ok=True)
@@ -55,7 +55,7 @@ def take_command():
 
     try:
         print("Recognizing...")
-        query = r.recognize_google(audio, language='en')
+        query = r.recognize_google(audio, language='en') # recognize_google is used to convert the audio to text
         print(f"User said: {query}\n")
         #convert the audio to text
     except Exception as e:
@@ -85,7 +85,7 @@ def gemini_model(input):
     # use input to generate content
     results = response.text
     return results
-    st.text_area(label="AI Response", value=response, height=200)
+
 def main():
     st.title("AI Voice Assistant with Gemini")
 
@@ -95,7 +95,7 @@ def main():
         with st.spinner("Listening..."):
             text = take_command()
             # get the text from the user
-            response = gemini_model(text)
+            response = gemini_model(text) # calls take command first since its inside
             # get the response from the model
             # display the response
             text_to_speech(response)
