@@ -2,11 +2,9 @@
 
 import speech_recognition as sr
 import datetime
-import webbrowser
 import os
 import logging
 import google.generativeai as gai
-import pyaudio
 import streamlit as st
 from gtts import gTTS # this way is because of OOP, this is method
 
@@ -28,24 +26,23 @@ def greet():
         st.write(f"Good Evening! \n It is {hour}:{minute}:{second} {period}")
 
     st.write("I am your assistant. How may I help you?")
-    # logging.info("Greeted the user")
-    # logging.info("Greeted the user")
+    logging.info("Greeted the user")
+    logging.info("Greeted the user")
 
-# Application logger
-# LOG_DIR = 'logs'
-# LOG_FILE_NAME = 'app.log'
+LOG_DIR = 'logs'
+LOG_FILE_NAME = 'app.log'
 
-# os.makedirs(LOG_DIR, exist_ok=True)
-# # mkdir is used to create a directory
-# # os.makedirs is used to create a directory and all parent directories
-# # exist_ok is used to prevent an error if the directory already exists
+os.makedirs(LOG_DIR, exist_ok=True)
+# mkdir is used to create a directory
+# os.makedirs is used to create a directory and all parent directories
+# exist_ok is used to prevent an error if the directory already exists
 
-# log_path = os.path.join(LOG_DIR, LOG_FILE_NAME)
-# # join the path of the directory and the file name
+log_path = os.path.join(LOG_DIR, LOG_FILE_NAME)
+# join the path of the directory and the file name
 
-# logging.basicConfig(filename=log_path, level=logging.INFO, format='%(asctime)s - %(message)s')
-# # basic configuration for the logger 
-# # level is the info, and format is the time and the message
+logging.basicConfig(filename=log_path, level=logging.INFO, format='%(asctime)s - %(message)s')
+# basic configuration for the logger 
+# level is the info, and format is the time and the message
 
 def take_command():
     # reckons the command
@@ -89,11 +86,6 @@ def gemini_model(input):
     results = response.text
     return results
 
-# greet()
-# text = take_command()
-# response = gemini_model(text)
-# print(response)
-
 def main():
     st.title("AI Voice Assistant with Gemini")
 
@@ -102,9 +94,28 @@ def main():
     if st.button("Speak"):
         with st.spinner("Listening..."):
             text = take_command()
-        response = gemini_model(text)
-        st.write(response)
-        text_to_speech(response)
+            # get the text from the user
+            response = gemini_model(text)
+            # get the response from the model
+            st.write(response)
+            # display the response
+            text_to_speech(response)
+            # convert the response to speech in mp3
+
+            audio_file = open("test_speech.mp3", "rb")
+            audio_bytes = audio_file.read()
+
+            st.text_area(label="AI Response", value=response, height=200)
+            st.audio(audio_bytes, format="audio/mp3", start_time=0)
+            now = datetime.datetime.now()
+            hour = now.hour
+            minute = now.minute
+            second = now.second
+            period = "AM" if hour < 12 else "PM"
+            hour %= 12
+            hour = 12 if hour == 0 else hour
+
+            st.download_button(label="Download Audio", data=audio_bytes, file_name=f"{hour}:{minute}:{second} {period}.mp3", mime="audio/mp3")
     #streamlit run main.py
     # alternative to gradio
 
