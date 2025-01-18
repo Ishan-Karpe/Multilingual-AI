@@ -21,23 +21,23 @@ def greet():
     else:
         print("\033[1mGood Evening!\033[0m")
     print("I am your assistant. How may I help you?")
-    logging.info("Greeted the user")
+    # logging.info("Greeted the user")
 
 # Application logger
-LOG_DIR = 'logs'
-LOG_FILE_NAME = 'app.log'
+# LOG_DIR = 'logs'
+# LOG_FILE_NAME = 'app.log'
 
-os.makedirs(LOG_DIR, exist_ok=True)
-# mkdir is used to create a directory
-# os.makedirs is used to create a directory and all parent directories
-# exist_ok is used to prevent an error if the directory already exists
+# os.makedirs(LOG_DIR, exist_ok=True)
+# # mkdir is used to create a directory
+# # os.makedirs is used to create a directory and all parent directories
+# # exist_ok is used to prevent an error if the directory already exists
 
-log_path = os.path.join(LOG_DIR, LOG_FILE_NAME)
-# join the path of the directory and the file name
+# log_path = os.path.join(LOG_DIR, LOG_FILE_NAME)
+# # join the path of the directory and the file name
 
-logging.basicConfig(filename=log_path, level=logging.INFO, format='%(asctime)s - %(message)s')
-# basic configuration for the logger 
-# level is the info, and format is the time and the message
+# logging.basicConfig(filename=log_path, level=logging.INFO, format='%(asctime)s - %(message)s')
+# # basic configuration for the logger 
+# # level is the info, and format is the time and the message
 
 def take_command():
     # reckons the command
@@ -54,7 +54,7 @@ def take_command():
         print(f"User said: {query}\n")
         #convert the audio to text
     except Exception as e:
-        logging.info(e) # log the error
+        # logging.info(e) # log the error
         print("Say that again please...")
         return "None"
     return query # return the query as a string
@@ -65,7 +65,7 @@ def text_to_speech(text):
     speech = gTTS(text=text, lang='en')
     speech.save("test_speech.mp3")
     os.system("start speech.mp3")
-    logging.info("Converted text to speech")
+    # logging.info("Converted text to speech")
     #google tts
 
 # greet()
@@ -80,3 +80,8 @@ def gemini_model(input):
     # use input to generate content
     results = response.text
     return results
+
+greet()
+text = take_command()
+response = gemini_model(text)
+print(response)
