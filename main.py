@@ -85,7 +85,7 @@ def gemini_model(input):
     # use input to generate content
     results = response.text
     return results
-
+    st.text_area(label="AI Response", value=response, height=200)
 def main():
     st.title("AI Voice Assistant with Gemini")
 
@@ -97,7 +97,6 @@ def main():
             # get the text from the user
             response = gemini_model(text)
             # get the response from the model
-            st.write(response)
             # display the response
             text_to_speech(response)
             # convert the response to speech in mp3
@@ -106,7 +105,7 @@ def main():
             audio_bytes = audio_file.read()
 
             st.text_area(label="AI Response", value=response, height=200)
-            st.audio(audio_bytes, format="audio/mp3", start_time=0)
+            st.audio(audio_bytes, format="audio/mp3", start_time=0, autoplay=True)
             now = datetime.datetime.now()
             hour = now.hour
             minute = now.minute
@@ -115,7 +114,7 @@ def main():
             hour %= 12
             hour = 12 if hour == 0 else hour
 
-            st.download_button(label="Download Audio", data=audio_bytes, file_name=f"{hour}:{minute}:{second} {period}.mp3", mime="audio/mp3")
+            st.download_button(label="Download Audio", data=audio_bytes, file_name=f"{hour}:{minute}:{second} .mp3", mime="audio/mp3")
     #streamlit run main.py
     # alternative to gradio
 
