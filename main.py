@@ -77,7 +77,7 @@ def text_to_speech(text):
 # text_to_speech(take_command())
 
 def gemini_model(input):
-    gai.configure(api_key='AIzaSyCGPVB7IAbNjmr68IpdoBdkrumzulbHaZA')
+    gai.configure(api_key='')
     # replace the above with your own key
     model = gai.GenerativeModel('gemini-1.5-flash')
     # cheap model
