@@ -14,3 +14,7 @@
 - First, run the file normally, then execute
 - streamlit run main.py
 - Doing this will open up the tab in localhost, which is UI
+
+
+  # supported languages:
+  Any languages in Google Translate and Google TTS supported
